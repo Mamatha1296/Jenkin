@@ -4,6 +4,9 @@ FROM ubuntu:latest as source-code
 # Set the working directory
 WORKDIR /App
 
+# Install git to clone the repository
+RUN apt-get update && apt-get install -y git
+
 # Clone the repository
 RUN git clone https://github.com/Mamatha1296/Jenkin.git .
 
