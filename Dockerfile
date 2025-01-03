@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 WORKDIR /build
 
 # Copy the repository content from Stage 1 to the build stage
-COPY --from=source-code /App/App /build
+COPY --from=source-code /App /build
 
 # Package the application into a .war file
 RUN mvn clean package
