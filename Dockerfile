@@ -1,6 +1,8 @@
 # Stage 1: Source code setup
 FROM ubuntu:latest as source-code
 
+SHELL ["/bin/bash", "-c"]
+
 WORKDIR /App
 RUN apt-get update && apt-get install -y git
 RUN git clone https://github.com/Mamatha1296/Jenkin.git .
