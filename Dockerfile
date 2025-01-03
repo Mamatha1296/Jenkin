@@ -1,5 +1,5 @@
 # Stage 1: Clone the GitHub repository
-FROM UBUNTU/git as source-code
+FROM ubuntu:latest as source-code
 
 # Set the working directory
 WORKDIR /App
@@ -28,8 +28,8 @@ FROM tomcat:10.1.34
 # Copy the WAR file from Stage 2 to the Tomcat webapps directory
 COPY --from=build /build/target/App.war /usr/local/tomcat/webapps/App.war
 
-# Expose port 8080
-EXPOSE 8080
+# Expose port 9090
+EXPOSE 9090
 
 # Start Tomcat server
 CMD ["catalina.sh", "run"]
