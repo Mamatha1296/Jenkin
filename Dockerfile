@@ -19,7 +19,7 @@ FROM maven:3.8.7-openjdk-17 as build
 # Set the working directory
 WORKDIR /build
 
-# Copy the MyWebApp directory from Stage 1
+# Copy the repository content from Stage 1 to the build stage
 COPY --from=source-code /App/App /build
 
 # Package the application into a .war file
@@ -31,7 +31,7 @@ FROM tomcat:10.1.34
 # Copy the WAR file from Stage 2 to the Tomcat webapps directory
 COPY --from=build /build/target/App.war /usr/local/tomcat/webapps/App.war
 
-# Expose port 9090
+# Expose port 9090 (Tomcat's default)
 EXPOSE 9090
 
 # Start Tomcat server
