@@ -1,41 +1,23 @@
-# Stage 1: Clone the GitHub repository
+# First stage: Clone the repository
 FROM ubuntu:latest as source-code
 
-# Set the working directory
 WORKDIR /App
 
-# Install git to clone the repository
 RUN apt-get update && apt-get install -y git
 
-# Clone the repository
 RUN git clone https://github.com/Mamatha1296/Jenkin.git .
-
-# Checkout the main branch
 RUN git checkout main
 
-# Stage 2: Install OpenJDK 17 and Maven, and build the .war file
+# Second stage: Build the application
 FROM ubuntu:latest as build
 
-# Install OpenJDK 17 and Maven
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
-# Set the working directory
-WORKDIR /build
+# Set working directory inside container for building
+WORKDIR /App  # Ensure Maven runs from the directory containing pom.xml
 
-# Copy the repository content from Stage 1 to the build stage
-COPY --from=source-code /App/ /build/
+# Copy the source code from the first stage
+COPY --from=source-code /App /App
 
-# Package the application into a .war file
+# Run Maven build
 RUN mvn clean package
-
-# Stage 3: Deploy to Tomcat
-FROM tomcat:10.1.34
-
-# Copy the WAR file from Stage 2 to the Tomcat webapps directory
-COPY --from=build /build/target/App.war /usr/local/tomcat/webapps/App.war
-
-# Expose port 9090
-EXPOSE 9090
-
-# Start Tomcat server
-CMD ["catalina.sh", "run"]
