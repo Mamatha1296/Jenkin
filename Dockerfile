@@ -13,11 +13,11 @@ RUN git clone https://github.com/Mamatha1296/Jenkin.git .
 # Checkout the main branch
 RUN git checkout main
 
-# Stage 2: Install Maven and build the .war file
-FROM openjdk:17 as build
+# Stage 2: Install OpenJDK 17 and Maven, and build the .war file
+FROM ubuntu:latest as build
 
-# Install Maven
-RUN apt-get update && apt-get install -y maven
+# Install OpenJDK 17 and Maven
+RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
 # Set the working directory
 WORKDIR /build
