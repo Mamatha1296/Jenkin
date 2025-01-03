@@ -14,11 +14,12 @@ FROM ubuntu:latest as build
 
 RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 
-# Set working directory inside container for building (where pom.xml is)
-WORKDIR /App  # Ensure Maven runs from the directory containing pom.xml
+# Ensure Maven works in the correct directory (the directory containing pom.xml)
+WORKDIR /App
 
 # Copy the source code (including pom.xml) from the first stage
 COPY --from=source-code /App /App
 
-# Run Maven build
+# Run Maven build inside /App (where pom.xml is located)
+RUN ls -al /App  # This will list files to confirm that pom.xml is present
 RUN mvn clean package
