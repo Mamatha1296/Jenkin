@@ -13,8 +13,11 @@ RUN git clone https://github.com/Mamatha1296/Jenkin.git .
 # Checkout the main branch
 RUN git checkout main
 
-# Stage 2: Build the .war file using Maven
-FROM maven:3.8.7-openjdk-17 as build
+# Stage 2: Install Maven and build the .war file
+FROM openjdk:17 as build
+
+# Install Maven
+RUN apt-get update && apt-get install -y maven
 
 # Set the working directory
 WORKDIR /build
@@ -31,7 +34,7 @@ FROM tomcat:10.1.34
 # Copy the WAR file from Stage 2 to the Tomcat webapps directory
 COPY --from=build /build/target/App.war /usr/local/tomcat/webapps/App.war
 
-# Expose port 9090 (Tomcat's default)
+# Expose port 9090
 EXPOSE 9090
 
 # Start Tomcat server
