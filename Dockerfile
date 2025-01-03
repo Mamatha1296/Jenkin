@@ -17,7 +17,7 @@ RUN apt-get update && apt-get install -y openjdk-17-jdk maven
 WORKDIR /App
 
 # Copy the content from the source-code stage
-COPY --from=source-code /App/Jenkin/App /App  # This should point to Jenkins/App directory
+COPY --from=source-code /Jenkin/App  # This should point to Jenkins/App directory
 
 # Debug step: Check that pom.xml is present
 RUN ls -al /App
